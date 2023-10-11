@@ -154,7 +154,13 @@ namespace MSP_test.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.FirstName, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.FirstName, Email = model.Email,
+                    SecondName = model.SecondName, LastName = model.LastName,
+                    Age = model.Age, PhoneNumber = model.PhoneNumber,
+                    RegionalCenter = model.RegionalCenter
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
