@@ -25,6 +25,9 @@ namespace MSP_test
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/myjs").Include(
+                "~/Scripts/copy.js"));
         }
     }
 }

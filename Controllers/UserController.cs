@@ -9,6 +9,7 @@ namespace MSP_test.Controllers
 {
     public class UserController : Controller
     {
+        [Authorize]
         // GET: User
         public ActionResult Index()
         {
