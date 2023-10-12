@@ -15,13 +15,14 @@ namespace MSP_test.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             
             // Add custom user claims here
+            userIdentity.AddClaim(new Claim("FirstName",FirstName));
             userIdentity.AddClaim(new Claim("SecondName",SecondName));
             userIdentity.AddClaim(new Claim("LastName",LastName));
             userIdentity.AddClaim(new Claim("Age",Age.ToString()));
             userIdentity.AddClaim(new Claim("RegionalCenter", RegionalCenter));
             return userIdentity;
         }
-
+        public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }

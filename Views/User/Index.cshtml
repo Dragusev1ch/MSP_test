@@ -1,0 +1,107 @@
+﻿@model List<MSP_test.Models.ApplicationUser>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conference participants</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even):not(.highlight) {
+            background-color: #f2f2f2;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+        }
+
+        .highlight {
+            background-color: #ffe5cc;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to toggle the sorting direction for a specific column
+            function toggleSortDirection(columnIndex) {
+                var table = document.querySelector("table");
+                var header = table.rows[0].getElementsByTagName("th")[columnIndex];
+                var currentDirection = header.getAttribute("data-sort-direction") || "asc";
+                header.setAttribute("data-sort-direction", currentDirection === "asc" ? "desc" : "asc");
+            }
+
+            // Function to sort the table by a specific column
+            function sortTable(columnIndex) {
+                var table, rows, switching, i, x, y, shouldSwitch;
+                table = document.querySelector("table");
+                switching = true;
+                while (switching) {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("td")[columnIndex];
+                        y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                        var isNumeric = !isNaN(x.innerText);
+                        var xValue = isNumeric ? parseFloat(x.innerText) : x.innerText.toLowerCase();
+                        var yValue = isNumeric ? parseFloat(y.innerText) : y.innerText.toLowerCase();
+
+                        var direction = rows[0].getElementsByTagName("th")[columnIndex].getAttribute("data-sort-direction");
+                        if ((direction === "asc" && xValue > yValue) || (direction === "desc" && xValue < yValue)) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                    }
+                }
+            }
+
+            // Add event listeners to the header cells for sorting
+            $("th").on("click", function () {
+                var columnIndex = $(this).index();
+                toggleSortDirection(columnIndex);
+                sortTable(columnIndex);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Conference participants</h1>
+    <table>
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Second Name</th>
+            <th>Email</th>
+            <th class="sortable">Age</th>
+            <th class="sortable">Regional Center</th>
+            <!-- Add more headers for additional columns -->
+        </tr>
+        @foreach (var user in Model)
+        {
+            <tr class="@(user.Email == User.Identity.Name ? "highlight" : "")">
+                <td>@user.LastName</td>
+                <td>@user.FirstName</td>
+                <td>@user.SecondName</td>
+                <td>@user.Email</td>
+                <td>@user.Age</td>
+                <td>@user.RegionalCenter</td>
+            </tr>
+        }
+    </table>
+</body>
+</html>

@@ -26,5 +26,12 @@ namespace MSP_test.Controllers
 
             return View();
         }
+
+        public ActionResult ConferenceParticipants()
+        {
+            ViewBag.Message = "Conference participants page";
+
+            return View();
+        }
     }
 }
