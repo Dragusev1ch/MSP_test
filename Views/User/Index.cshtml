@@ -1,0 +1,89 @@
+﻿@model List<MSP_test.Models.ApplicationUser>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User List</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to sort the table by a specific column
+            function sortTable(columnIndex) {
+                var table, rows, switching, i, x, y, shouldSwitch;
+                table = document.querySelector("table");
+                switching = true;
+                while (switching) {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("td")[columnIndex];
+                        y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                    }
+                }
+            }
+
+            // Add event listeners to the header cells for sorting
+            $("th").on("click", function () {
+                var columnIndex = $(this).index();
+                sortTable(columnIndex);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>User List</h1>
+    <table>
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Second Name</th>
+            <th>Email</th>
+            <th class="sortable">Age</th>
+            <th class="sortable">Regional Center</th>
+            <!-- Add more headers for additional columns -->
+        </tr>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.LastName</td>
+                <td>@user.UserName</td>
+                <td>@user.SecondName</td>
+                <td>@user.Email</td>
+                <td>@user.Age</td>
+                <td>@user.RegionalCenter</td>
+            </tr>
+        }
+    </table>
+</body>
+</html>
